@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.quizplatform.controller.QuizControllerTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.876 s -- in com.quizplatform.controller.QuizControllerTest
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.376 s -- in com.quizplatform.controller.QuizControllerTest

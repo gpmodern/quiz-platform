@@ -33,5 +33,23 @@ public class QuizController {
         QuizDto dto = quizService.createQuiz(req);
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<QuizDto> getById(@PathVariable Long id) {
+        QuizDto dto = quizService.findById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<QuizDto> update(@PathVariable Long id, @Valid @RequestBody CreateQuizRequest req) {
+        QuizDto dto = quizService.updateQuiz(id, req);
+        return ResponseEntity.ok(dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        quizService.deleteQuiz(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 

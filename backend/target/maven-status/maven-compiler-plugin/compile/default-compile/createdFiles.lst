@@ -1,5 +1,6 @@
 com\quizplatform\dto\AuthRequest.class
 com\quizplatform\dto\CreateQuizRequest.class
+com\quizplatform\service\QuestionService.class
 com\quizplatform\entity\Question.class
 com\quizplatform\repository\UserRepository.class
 com\quizplatform\config\JwtProperties.class
@@ -10,13 +11,16 @@ com\quizplatform\dto\AuthResponse.class
 com\quizplatform\entity\Quiz.class
 com\quizplatform\QuizPlatformApplication.class
 com\quizplatform\repository\QuizRepository.class
+com\quizplatform\controller\QuestionController.class
 com\quizplatform\dto\QuizDto.class
 com\quizplatform\service\QuizService.class
 com\quizplatform\dto\RegisterRequest.class
+com\quizplatform\exception\ResourceNotFoundException.class
 com\quizplatform\security\JwtUtil.class
 com\quizplatform\config\AppConfig.class
 com\quizplatform\service\QuizServiceImpl.class
 com\quizplatform\controller\QuizController.class
+com\quizplatform\service\QuestionServiceImpl.class
 com\quizplatform\dto\QuestionDto.class
 com\quizplatform\security\JwtAuthenticationFilter.class
 com\quizplatform\entity\User.class

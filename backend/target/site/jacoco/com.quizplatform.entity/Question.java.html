@@ -10,11 +10,11 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = &quot;question_id&quot;)
-<span class="nc" id="L13">    private Long id;</span>
+<span class="fc" id="L13">    private Long id;</span>
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = &quot;quiz_id&quot;)
-<span class="nc" id="L17">    private Quiz quiz;</span>
+<span class="fc" id="L17">    private Quiz quiz;</span>
 
     @Column(name = &quot;question_text&quot;, nullable = false)
 <span class="fc" id="L20">    private String questionText;</span>

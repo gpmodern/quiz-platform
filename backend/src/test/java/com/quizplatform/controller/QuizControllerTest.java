@@ -157,4 +157,60 @@ class QuizControllerTest {
                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    void getById_existing_shouldReturnQuiz() throws Exception {
+        QuizDto dto = new QuizDto(10L, "Existing");
+        dto.setQuestions(Collections.singletonList(new QuestionDto(1L, 10L, "Q1", "mc")));
+        when(quizService.findById(10L)).thenReturn(dto);
+
+        mockMvc.perform(get("/api/quizzes/10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Existing"))
+                .andExpect(jsonPath("$.questions[0].questionText").value("Q1"));
+    }
+
+    @Test
+    void getById_notFound_shouldReturn404() throws Exception {
+        when(quizService.findById(11L)).thenThrow(new com.quizplatform.exception.ResourceNotFoundException("not"));
+
+        mockMvc.perform(get("/api/quizzes/11"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void update_success() throws Exception {
+        CreateQuizRequest req = new CreateQuizRequest();
+        req.setTitle("Updated Title");
+
+        when(quizService.updateQuiz(any(Long.class), any(CreateQuizRequest.class)))
+                .thenReturn(new QuizDto(20L, "Updated Title"));
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put("/api/quizzes/20")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(20))
+                .andExpect(jsonPath("$.title").value("Updated Title"));
+    }
+
+    @Test
+    void update_notFound_shouldReturn404() throws Exception {
+        CreateQuizRequest req = new CreateQuizRequest();
+        req.setTitle("Whatever");
+        when(quizService.updateQuiz(any(Long.class), any(CreateQuizRequest.class)))
+                .thenThrow(new com.quizplatform.exception.ResourceNotFoundException("not"));
+
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put("/api/quizzes/21")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(req)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void delete_success() throws Exception {
+        // no exception thrown
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete("/api/quizzes/30"))
+                .andExpect(status().isNoContent());
+    }
 }

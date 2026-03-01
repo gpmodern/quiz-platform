@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuestionController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Quiz Platform Backend</a> &gt; <a href="index.source.html" class="el_package">com.quizplatform.controller</a> &gt; <span class="el_source">QuestionController.java</span></div><h1>QuestionController.java</h1><pre class="source lang-java linenums">package com.quizplatform.controller;
+
+import com.quizplatform.dto.QuestionDto;
+import com.quizplatform.service.QuestionService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api&quot;)
+@Validated
+public class QuestionController {
+
+    private final QuestionService questionService;
+
+<span class="fc" id="L19">    public QuestionController(QuestionService questionService) {</span>
+<span class="fc" id="L20">        this.questionService = questionService;</span>
+<span class="fc" id="L21">    }</span>
+
+    @GetMapping(&quot;/quizzes/{quizId}/questions&quot;)
+    public ResponseEntity&lt;List&lt;QuestionDto&gt;&gt; listByQuiz(@PathVariable Long quizId) {
+<span class="fc" id="L25">        List&lt;QuestionDto&gt; list = questionService.findByQuizId(quizId);</span>
+<span class="fc" id="L26">        return ResponseEntity.ok(list);</span>
+    }
+
+    @PostMapping(&quot;/quizzes/{quizId}/questions&quot;)
+    public ResponseEntity&lt;QuestionDto&gt; add(@PathVariable Long quizId, @Valid @RequestBody QuestionDto dto) {
+<span class="fc" id="L31">        QuestionDto result = questionService.addQuestion(quizId, dto);</span>
+<span class="fc" id="L32">        return ResponseEntity.ok(result);</span>
+    }
+
+    @PutMapping(&quot;/questions/{id}&quot;)
+    public ResponseEntity&lt;QuestionDto&gt; update(@PathVariable Long id, @Valid @RequestBody QuestionDto dto) {
+<span class="fc" id="L37">        QuestionDto result = questionService.updateQuestion(id, dto);</span>
+<span class="fc" id="L38">        return ResponseEntity.ok(result);</span>
+    }
+
+    @DeleteMapping(&quot;/questions/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; delete(@PathVariable Long id) {
+<span class="fc" id="L43">        questionService.deleteQuestion(id);</span>
+<span class="fc" id="L44">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

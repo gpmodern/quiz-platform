@@ -10,13 +10,14 @@ import com.quizplatform.entity.Question;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.quizplatform.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-<span class="fc" id="L19">public class QuizServiceImpl implements QuizService {</span>
+<span class="fc" id="L20">public class QuizServiceImpl implements QuizService {</span>
 
     @Autowired
     private QuizRepository repository;
@@ -25,30 +26,59 @@ import java.util.stream.Collectors;
 
     @Override
     public List&lt;QuizDto&gt; findAll() {
-<span class="fc" id="L28">        return repository.findAll().stream()</span>
-<span class="fc" id="L29">                .map(q -&gt; new QuizDto(q.getId(), q.getTitle()))</span>
-<span class="fc" id="L30">                .collect(Collectors.toList());</span>
+<span class="fc" id="L29">        return repository.findAll().stream()</span>
+<span class="fc" id="L30">                .map(q -&gt; new QuizDto(q.getId(), q.getTitle()))</span>
+<span class="fc" id="L31">                .collect(Collectors.toList());</span>
     }
 
     @Override
     public QuizDto createQuiz(CreateQuizRequest req) {
-<span class="fc" id="L35">        Quiz quiz = new Quiz();</span>
-<span class="fc" id="L36">        quiz.setTitle(req.getTitle());</span>
-<span class="fc" id="L37">        quiz.setDescription(req.getDescription());</span>
-<span class="fc" id="L38">        quiz.setCategory(req.getCategory());</span>
-<span class="fc" id="L39">        quiz = repository.save(quiz);</span>
+<span class="fc" id="L36">        Quiz quiz = new Quiz();</span>
+<span class="fc" id="L37">        quiz.setTitle(req.getTitle());</span>
+<span class="fc" id="L38">        quiz.setDescription(req.getDescription());</span>
+<span class="fc" id="L39">        quiz.setCategory(req.getCategory());</span>
+<span class="fc" id="L40">        quiz = repository.save(quiz);</span>
 
-<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (req.getQuestions() != null) {</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">            for (QuestionDto qd : req.getQuestions()) {</span>
-<span class="fc" id="L43">                Question q = new Question();</span>
-<span class="fc" id="L44">                q.setQuiz(quiz);</span>
-<span class="fc" id="L45">                q.setQuestionText(qd.getQuestionText());</span>
-<span class="fc" id="L46">                q.setQuestionType(qd.getQuestionType());</span>
-<span class="fc" id="L47">                questionRepository.save(q);</span>
-<span class="fc" id="L48">            }</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (req.getQuestions() != null) {</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            for (QuestionDto qd : req.getQuestions()) {</span>
+<span class="fc" id="L44">                Question q = new Question();</span>
+<span class="fc" id="L45">                q.setQuiz(quiz);</span>
+<span class="fc" id="L46">                q.setQuestionText(qd.getQuestionText());</span>
+<span class="fc" id="L47">                q.setQuestionType(qd.getQuestionType());</span>
+<span class="fc" id="L48">                questionRepository.save(q);</span>
+<span class="fc" id="L49">            }</span>
         }
 
-<span class="fc" id="L51">        return new QuizDto(quiz.getId(), quiz.getTitle());</span>
+<span class="fc" id="L52">        return new QuizDto(quiz.getId(), quiz.getTitle());</span>
     }
+
+    // Sprint 2 implementations
+
+    @Override
+    public QuizDto findById(Long id) {
+<span class="fc" id="L59">        Quiz q = repository.findById(id)</span>
+<span class="fc" id="L60">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Quiz not found&quot;));</span>
+        // map questions if present
+<span class="fc" id="L62">        java.util.List&lt;QuestionDto&gt; questions = q.getQuestions().stream()</span>
+<span class="pc" id="L63">                .map(qq -&gt; new QuestionDto(qq.getId(), q.getId(), qq.getQuestionText(), qq.getQuestionType()))</span>
+<span class="fc" id="L64">                .collect(Collectors.toList());</span>
+<span class="fc" id="L65">        return new QuizDto(q.getId(), q.getTitle(), questions);</span>
+    }
+
+    @Override
+    public QuizDto updateQuiz(Long id, CreateQuizRequest req) {
+<span class="fc" id="L70">        Quiz quiz = repository.findById(id)</span>
+<span class="fc" id="L71">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Quiz not found&quot;));</span>
+<span class="fc" id="L72">        quiz.setTitle(req.getTitle());</span>
+<span class="fc" id="L73">        quiz.setDescription(req.getDescription());</span>
+<span class="fc" id="L74">        quiz.setCategory(req.getCategory());</span>
+<span class="fc" id="L75">        quiz = repository.save(quiz);</span>
+<span class="fc" id="L76">        return new QuizDto(quiz.getId(), quiz.getTitle());</span>
+    }
+
+    @Override
+    public void deleteQuiz(Long id) {
+<span class="fc" id="L81">        repository.deleteById(id);</span>
+<span class="fc" id="L82">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

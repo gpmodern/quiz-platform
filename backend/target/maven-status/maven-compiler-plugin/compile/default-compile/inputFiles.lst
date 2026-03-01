@@ -1,6 +1,7 @@
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\config\AppConfig.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\config\JwtProperties.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\controller\AuthController.java
+C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\controller\QuestionController.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\controller\QuizController.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\dto\AuthRequest.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\dto\AuthResponse.java
@@ -11,6 +12,7 @@ C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\ma
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\entity\Question.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\entity\Quiz.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\entity\User.java
+C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\exception\ResourceNotFoundException.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\QuizPlatformApplication.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\repository\QuestionRepository.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\repository\QuizRepository.java
@@ -19,5 +21,7 @@ C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\ma
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\security\JwtUtil.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\security\SecurityConfig.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\service\CustomUserDetailsService.java
+C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\service\QuestionService.java
+C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\service\QuestionServiceImpl.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\service\QuizService.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\service\QuizServiceImpl.java

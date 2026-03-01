@@ -3,28 +3,43 @@
 public class QuizDto {
     private Long id;
     private String title;
+<span class="pc" id="L6">    private java.util.List&lt;QuestionDto&gt; questions = new java.util.ArrayList&lt;&gt;();</span>
 
-<span class="nc" id="L7">    public QuizDto() {}</span>
+<span class="nc" id="L8">    public QuizDto() {}</span>
 
-<span class="fc" id="L9">    public QuizDto(Long id, String title) {</span>
-<span class="fc" id="L10">        this.id = id;</span>
-<span class="fc" id="L11">        this.title = title;</span>
-<span class="fc" id="L12">    }</span>
+<span class="fc" id="L10">    public QuizDto(Long id, String title) {</span>
+<span class="fc" id="L11">        this.id = id;</span>
+<span class="fc" id="L12">        this.title = title;</span>
+<span class="fc" id="L13">    }</span>
+
+<span class="fc" id="L15">    public QuizDto(Long id, String title, java.util.List&lt;QuestionDto&gt; questions) {</span>
+<span class="fc" id="L16">        this.id = id;</span>
+<span class="fc" id="L17">        this.title = title;</span>
+<span class="fc" id="L18">        this.questions = questions;</span>
+<span class="fc" id="L19">    }</span>
 
     public Long getId() {
-<span class="fc" id="L15">        return id;</span>
+<span class="fc" id="L22">        return id;</span>
     }
 
     public void setId(Long id) {
-<span class="nc" id="L19">        this.id = id;</span>
-<span class="nc" id="L20">    }</span>
+<span class="nc" id="L26">        this.id = id;</span>
+<span class="nc" id="L27">    }</span>
 
     public String getTitle() {
-<span class="fc" id="L23">        return title;</span>
+<span class="fc" id="L30">        return title;</span>
     }
 
     public void setTitle(String title) {
-<span class="nc" id="L27">        this.title = title;</span>
-<span class="nc" id="L28">    }</span>
+<span class="nc" id="L34">        this.title = title;</span>
+<span class="nc" id="L35">    }</span>
+
+    public java.util.List&lt;QuestionDto&gt; getQuestions() {
+<span class="fc" id="L38">        return questions;</span>
+    }
+
+    public void setQuestions(java.util.List&lt;QuestionDto&gt; questions) {
+<span class="fc" id="L42">        this.questions = questions;</span>
+<span class="fc" id="L43">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
