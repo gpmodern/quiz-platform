@@ -21,4 +21,7 @@ public class Question {
 
     @Column(name = "question_type", nullable = false)
     private String questionType;
+
+    @Column(name = "correct_answer")
+    private String correctAnswer;
 }

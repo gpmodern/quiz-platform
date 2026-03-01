@@ -1,0 +1,248 @@
+<div class="admin-container">
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark admin-navbar">
+    <div class="container-fluid">
+      <span class="navbar-brand fw-bold">
+        <i class="bi bi-shield-check"></i> Admin Panel
+      </span>
+      <button class="btn btn-outline-light btn-sm" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="admin-content">
+    <!-- Alerts -->
+    <div *ngIf="error()" class="alert alert-danger alert-dismissible fade show animate-shake" role="alert">
+      {{ error() }}
+      <button type="button" class="btn-close" (click)="error.set(null)"></button>
+    </div>
+
+    <div *ngIf="success()" class="alert alert-success alert-dismissible fade show animate-slide-in" role="alert">
+      {{ success() }}
+      <button type="button" class="btn-close" (click)="success.set(null)"></button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <ul class="nav nav-tabs custom-tabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            [class.active]="activeTab() === 'quizzes'"
+            (click)="activeTab.set('quizzes')"
+            type="button"
+          >
+            <i class="bi bi-list-check"></i> My Quizzes
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            [class.active]="activeTab() === 'create'"
+            (click)="activeTab.set('create')"
+            type="button"
+          >
+            <i class="bi bi-plus-circle"></i> Create Quiz
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Quizzes Tab -->
+    <div *ngIf="activeTab() === 'quizzes'" class="tab-content animate-fade-in">
+      <h2 class="mb-4">My Quizzes</h2>
+
+      <div *ngIf="loading()" class="text-center py-5">
+        <div class="spinner-border text-primary mb-3" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div *ngIf="!loading() && quizzes().length === 0" class="empty-state">
+        <i class="bi bi-inbox"></i>
+        <p>No quizzes yet. Create your first quiz!</p>
+      </div>
+
+      <div *ngIf="!loading() && quizzes().length > 0" class="quizzes-grid">
+        <div
+          *ngFor="let quiz of quizzes()"
+          class="quiz-item animate-scale-in"
+          [class.selected]="selectedQuiz()?.id === quiz.id"
+          (click)="selectQuiz(quiz)"
+        >
+          <h5>{{ quiz.title }}</h5>
+          <p class="text-muted">{{ quiz.questions?.length || 0 }} questions</p>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="deleteQuiz(quiz.id!); $event.stopPropagation()"
+          >
+            <i class="bi bi-trash"></i> Delete
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected Quiz Details -->
+      <div *ngIf="selectedQuiz()" class="quiz-details animate-slide-in">
+        <h3>{{ selectedQuiz()?.title }}</h3>
+        <p class="text-muted mb-4">{{ selectedQuiz()?.description }}</p>
+
+        <div class="questions-section">
+          <h5 class="mb-3">Questions ({{ selectedQuiz()?.questions?.length || 0 }})</h5>
+
+          <div *ngIf="(selectedQuiz()?.questions?.length || 0) === 0" class="alert alert-info">
+            No questions yet. Add some below.
+          </div>
+
+          <div *ngFor="let q of selectedQuiz()?.questions; let i = index" class="question-item">
+            <div class="question-header">
+              <strong>{{ i + 1 }}. {{ q.questionText }}</strong>
+            </div>
+            <div class="question-details">
+              <p><strong>Options:</strong> {{ q.options?.join(', ') }}</p>
+              <p><strong>Correct Answer:</strong> {{ q.correctAnswer }}</p>
+            </div>
+          </div>
+
+          <!-- Add Questions -->
+          <div class="add-questions-section">
+            <h5 class="mb-3">Add New Questions</h5>
+
+            <form [formGroup]="questionForm" class="mb-4">
+              <div class="form-group mb-3">
+                <label for="questionText" class="form-label">Question</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="questionText"
+                  formControlName="questionText"
+                  placeholder="Enter your question"
+                />
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="questionType" class="form-label">Type</label>
+                <select class="form-control" id="questionType" formControlName="questionType">
+                  <option value="mc">Multiple Choice</option>
+                  <option value="tf">True/False</option>
+                  <option value="short">Short Answer</option>
+                </select>
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="options" class="form-label">Options (comma-separated)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="options"
+                  formControlName="options"
+                  placeholder="Option1, Option2, Option3"
+                />
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="correctAnswer" class="form-label">Correct Answer</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="correctAnswer"
+                  formControlName="correctAnswer"
+                  placeholder="Select the correct option"
+                />
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addQuestionForm()"
+                [disabled]="questionForm.invalid"
+              >
+                <i class="bi bi-plus"></i> Add Question
+              </button>
+            </form>
+
+            <!-- Pending Questions -->
+            <div *ngIf="newQuestions().length > 0" class="pending-questions">
+              <h6>Pending Questions ({{ newQuestions().length }})</h6>
+              <div *ngFor="let q of newQuestions(); let i = index" class="pending-item">
+                <span>{{ i + 1 }}. {{ q.questionText }}</span>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger"
+                  (click)="removeQuestion(i)"
+                >
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-success btn-lg w-100 mt-3"
+                (click)="saveQuestions()"
+                [disabled]="submitting()"
+              >
+                <span *ngIf="!submitting()">
+                  <i class="bi bi-check-lg"></i> Save Questions
+                </span>
+                <span *ngIf="submitting()">
+                  <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                  Saving...
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Quiz Tab -->
+    <div *ngIf="activeTab() === 'create'" class="tab-content animate-fade-in">
+      <h2 class="mb-4">Create New Quiz</h2>
+
+      <div class="create-form-container">
+        <form [formGroup]="quizForm" (ngSubmit)="createQuiz()">
+          <div class="form-group mb-3">
+            <label for="title" class="form-label">Quiz Title *</label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title"
+              placeholder="Enter quiz title"
+              [class.is-invalid]="quizForm.get('title')?.invalid && quizForm.get('title')?.touched"
+            />
+            <div class="invalid-feedback" *ngIf="quizForm.get('title')?.invalid && quizForm.get('title')?.touched">
+              Title is required and must be at least 3 characters
+            </div>
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="description" class="form-label">Description</label>
+            <textarea
+              class="form-control"
+              id="description"
+              formControlName="description"
+              placeholder="Enter quiz description..."
+              rows="4"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg"
+            [disabled]="submitting() || quizForm.invalid"
+          >
+            <span *ngIf="!submitting()">
+              <i class="bi bi-pencil-square"></i> Create Quiz
+            </span>
+            <span *ngIf="submitting()">
+              <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+              Creating...
+            </span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

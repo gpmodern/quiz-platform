@@ -10,6 +10,7 @@ public class QuestionDto {
     private String questionText;
     @NotBlank
     private String questionType;
+    private String correctAnswer;
 
     public QuestionDto() {}
 
@@ -20,6 +21,14 @@ public class QuestionDto {
         this.questionType = questionType;
     }
 
+    public QuestionDto(Long id, Long quizId, String questionText, String questionType, String correctAnswer) {
+        this.id = id;
+        this.quizId = quizId;
+        this.questionText = questionText;
+        this.questionType = questionType;
+        this.correctAnswer = correctAnswer;
+    }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Long getQuizId() { return quizId; }
@@ -28,4 +37,7 @@ public class QuestionDto {
     public void setQuestionText(String questionText) { this.questionText = questionText; }
     public String getQuestionType() { return questionType; }
     public void setQuestionType(String questionType) { this.questionType = questionType; }
+
+    public String getCorrectAnswer() { return correctAnswer; }
+    public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
 }

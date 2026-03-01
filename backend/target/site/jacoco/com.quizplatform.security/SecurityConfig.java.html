@@ -20,42 +20,42 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService userDetailsService;
 
-<span class="nc" id="L23">    public SecurityConfig(JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {</span>
-<span class="nc" id="L24">        this.jwtUtil = jwtUtil;</span>
-<span class="nc" id="L25">        this.userDetailsService = userDetailsService;</span>
-<span class="nc" id="L26">    }</span>
+<span class="fc" id="L23">    public SecurityConfig(JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {</span>
+<span class="fc" id="L24">        this.jwtUtil = jwtUtil;</span>
+<span class="fc" id="L25">        this.userDetailsService = userDetailsService;</span>
+<span class="fc" id="L26">    }</span>
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-<span class="nc" id="L31">        JwtAuthenticationFilter jwtFilter =</span>
+<span class="fc" id="L31">        JwtAuthenticationFilter jwtFilter =</span>
                 new JwtAuthenticationFilter(jwtUtil, userDetailsService);
 
-<span class="nc" id="L34">        http</span>
+<span class="fc" id="L34">        http</span>
             // Disable CSRF (we are stateless)
-<span class="nc" id="L36">            .csrf(csrf -&gt; csrf.disable())</span>
+<span class="fc" id="L36">            .csrf(csrf -&gt; csrf.disable())</span>
 
             // Stateless session (JWT based)
-<span class="nc" id="L39">            .sessionManagement(session -&gt;</span>
-<span class="nc" id="L40">                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)</span>
+<span class="fc" id="L39">            .sessionManagement(session -&gt;</span>
+<span class="fc" id="L40">                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)</span>
             )
 
             // Endpoint authorization rules
-<span class="nc" id="L44">            .authorizeHttpRequests(auth -&gt; auth</span>
-<span class="nc" id="L45">                .requestMatchers(&quot;/api/auth/**&quot;).permitAll()</span>
-<span class="nc" id="L46">                .requestMatchers(&quot;/h2-console/**&quot;).permitAll()</span>
-<span class="nc" id="L47">                .anyRequest().authenticated()</span>
+<span class="fc" id="L44">            .authorizeHttpRequests(auth -&gt; auth</span>
+<span class="fc" id="L45">                .requestMatchers(&quot;/api/auth/**&quot;).permitAll()</span>
+<span class="fc" id="L46">                .requestMatchers(&quot;/h2-console/**&quot;).permitAll()</span>
+<span class="fc" id="L47">                .anyRequest().authenticated()</span>
             )
 
             // Add JWT filter before username/password filter
-<span class="nc" id="L51">            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)</span>
+<span class="fc" id="L51">            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)</span>
 
             // Needed only if using H2 console
-<span class="nc" id="L54">            .headers(headers -&gt;</span>
-<span class="nc" id="L55">                headers.frameOptions(frame -&gt; frame.disable())</span>
+<span class="fc" id="L54">            .headers(headers -&gt;</span>
+<span class="fc" id="L55">                headers.frameOptions(frame -&gt; frame.disable())</span>
             );
 
-<span class="nc" id="L58">        return http.build();</span>
+<span class="fc" id="L58">        return http.build();</span>
     }
 
     /**
@@ -64,7 +64,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception {
-<span class="nc" id="L67">        return config.getAuthenticationManager();</span>
+<span class="fc" id="L67">        return config.getAuthenticationManager();</span>
     }
 
     /**
@@ -72,7 +72,7 @@ public class SecurityConfig {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-<span class="nc" id="L75">        return new BCryptPasswordEncoder();</span>
+<span class="fc" id="L75">        return new BCryptPasswordEncoder();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

@@ -31,39 +31,42 @@ import java.util.stream.Collectors;
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize(&quot;hasRole('ADMIN')&quot;)
     public QuestionDto addQuestion(Long quizId, QuestionDto dto) {
-<span class="fc" id="L35">        Quiz quiz = quizRepository.findById(quizId)</span>
-<span class="fc" id="L36">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Quiz not found&quot;));</span>
-<span class="fc" id="L37">        Question q = new Question();</span>
-<span class="fc" id="L38">        q.setQuiz(quiz);</span>
-<span class="fc" id="L39">        q.setQuestionText(dto.getQuestionText());</span>
-<span class="fc" id="L40">        q.setQuestionType(dto.getQuestionType());</span>
-<span class="fc" id="L41">        q = questionRepository.save(q);</span>
-<span class="fc" id="L42">        return toDto(q);</span>
+<span class="fc" id="L36">        Quiz quiz = quizRepository.findById(quizId)</span>
+<span class="fc" id="L37">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Quiz not found&quot;));</span>
+<span class="fc" id="L38">        Question q = new Question();</span>
+<span class="fc" id="L39">        q.setQuiz(quiz);</span>
+<span class="fc" id="L40">        q.setQuestionText(dto.getQuestionText());</span>
+<span class="fc" id="L41">        q.setQuestionType(dto.getQuestionType());</span>
+<span class="fc" id="L42">        q = questionRepository.save(q);</span>
+<span class="fc" id="L43">        return toDto(q);</span>
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize(&quot;hasRole('ADMIN')&quot;)
     public QuestionDto updateQuestion(Long id, QuestionDto dto) {
-<span class="fc" id="L47">        Question q = questionRepository.findById(id)</span>
-<span class="fc" id="L48">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Question not found&quot;));</span>
-<span class="fc" id="L49">        q.setQuestionText(dto.getQuestionText());</span>
-<span class="fc" id="L50">        q.setQuestionType(dto.getQuestionType());</span>
-<span class="fc" id="L51">        q = questionRepository.save(q);</span>
-<span class="fc" id="L52">        return toDto(q);</span>
+<span class="fc" id="L49">        Question q = questionRepository.findById(id)</span>
+<span class="fc" id="L50">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Question not found&quot;));</span>
+<span class="fc" id="L51">        q.setQuestionText(dto.getQuestionText());</span>
+<span class="fc" id="L52">        q.setQuestionType(dto.getQuestionType());</span>
+<span class="fc" id="L53">        q = questionRepository.save(q);</span>
+<span class="fc" id="L54">        return toDto(q);</span>
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize(&quot;hasRole('ADMIN')&quot;)
     public void deleteQuestion(Long id) {
-<span class="fc" id="L57">        questionRepository.deleteById(id);</span>
-<span class="fc" id="L58">    }</span>
+<span class="fc" id="L60">        questionRepository.deleteById(id);</span>
+<span class="fc" id="L61">    }</span>
 
     private QuestionDto toDto(Question q) {
-<span class="fc" id="L61">        QuestionDto dto = new QuestionDto();</span>
-<span class="fc" id="L62">        dto.setId(q.getId());</span>
-<span class="fc bfc" id="L63" title="All 2 branches covered.">        dto.setQuizId(q.getQuiz() != null ? q.getQuiz().getId() : null);</span>
-<span class="fc" id="L64">        dto.setQuestionText(q.getQuestionText());</span>
-<span class="fc" id="L65">        dto.setQuestionType(q.getQuestionType());</span>
-<span class="fc" id="L66">        return dto;</span>
+<span class="fc" id="L64">        QuestionDto dto = new QuestionDto();</span>
+<span class="fc" id="L65">        dto.setId(q.getId());</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        dto.setQuizId(q.getQuiz() != null ? q.getQuiz().getId() : null);</span>
+<span class="fc" id="L67">        dto.setQuestionText(q.getQuestionText());</span>
+<span class="fc" id="L68">        dto.setQuestionType(q.getQuestionType());</span>
+<span class="fc" id="L69">        return dto;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

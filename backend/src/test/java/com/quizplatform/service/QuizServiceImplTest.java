@@ -194,6 +194,52 @@ class QuizServiceImplTest {
         verify(quizRepository).deleteById(42L);
     }
 
+    // sprint4 search tests
+    @Test
+    void search_withTitle_shouldReturnMatches() {
+        Quiz q = new Quiz();
+        q.setId(1L);
+        q.setTitle("FindMe");
+        when(quizRepository.findByTitleContainingIgnoreCase("find")).thenReturn(java.util.Collections.singletonList(q));
+
+        java.util.List<QuizDto> result = quizService.searchQuizzes("find", null);
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getTitle()).isEqualTo("FindMe");
+    }
+
+    @Test
+    void search_withCategory_shouldReturnMatches() {
+        Quiz q = new Quiz();
+        q.setId(2L);
+        q.setTitle("Other");
+        when(quizRepository.findByCategoryIgnoreCase("math")).thenReturn(java.util.Collections.singletonList(q));
+
+        java.util.List<QuizDto> result = quizService.searchQuizzes(null, "math");
+        assertThat(result).hasSize(1);
+        assertThat(result.get(0).getId()).isEqualTo(2L);
+    }
+
+    @Test
+    void search_withTitleAndCategory_shouldReturnMatches() {
+        Quiz q = new Quiz();
+        q.setId(3L);
+        q.setTitle("Combo");
+        when(quizRepository.findByTitleContainingIgnoreCaseAndCategoryIgnoreCase("co", "science"))
+                .thenReturn(java.util.Collections.singletonList(q));
+
+        java.util.List<QuizDto> result = quizService.searchQuizzes("co", "science");
+        assertThat(result).hasSize(1);
+    }
+
+    @Test
+    void search_withNoParams_shouldReturnAll() {
+        Quiz q1 = new Quiz(); q1.setId(5L); q1.setTitle("A");
+        when(quizRepository.findAll()).thenReturn(java.util.Arrays.asList(q1));
+
+        java.util.List<QuizDto> result = quizService.searchQuizzes(null, null);
+        assertThat(result).hasSize(1);
+    }
+
     // question service behaviours exercised indirectly through findById returned questions
     // additional direct tests implemented in QuestionServiceImplTest
 }

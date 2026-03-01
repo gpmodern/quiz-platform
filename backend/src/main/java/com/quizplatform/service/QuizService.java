@@ -11,4 +11,7 @@ public interface QuizService {
     QuizDto findById(Long id);
     QuizDto updateQuiz(Long id, com.quizplatform.dto.CreateQuizRequest req);
     void deleteQuiz(Long id);
+
+    // Sprint 4: search by title/category
+    java.util.List<QuizDto> searchQuizzes(String title, String category);
 }

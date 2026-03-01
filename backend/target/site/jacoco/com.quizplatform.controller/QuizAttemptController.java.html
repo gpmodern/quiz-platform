@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuizAttemptController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Quiz Platform Backend</a> &gt; <a href="index.source.html" class="el_package">com.quizplatform.controller</a> &gt; <span class="el_source">QuizAttemptController.java</span></div><h1>QuizAttemptController.java</h1><pre class="source lang-java linenums">package com.quizplatform.controller;
+
+import com.quizplatform.dto.QuestionDto;
+import com.quizplatform.dto.TakeQuizRequest;
+import com.quizplatform.dto.TakeQuizResponse;
+import com.quizplatform.service.QuizAttemptService;
+import com.quizplatform.service.QuizService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping(&quot;/api/quizzes&quot;)
+@Validated
+public class QuizAttemptController {
+    private final QuizAttemptService attemptService;
+    private final QuizService quizService;
+
+<span class="fc" id="L26">    public QuizAttemptController(QuizAttemptService attemptService, QuizService quizService) {</span>
+<span class="fc" id="L27">        this.attemptService = attemptService;</span>
+<span class="fc" id="L28">        this.quizService = quizService;</span>
+<span class="fc" id="L29">    }</span>
+
+    // helper to grab current user's email from security context
+    private String currentUserEmail() {
+<span class="fc" id="L33">        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (principal instanceof UserDetails) {</span>
+<span class="nc" id="L35">            return ((UserDetails) principal).getUsername();</span>
+        }
+<span class="fc" id="L37">        return principal.toString();</span>
+    }
+
+    @GetMapping(&quot;/{id}/take&quot;)
+    @org.springframework.security.access.prepost.PreAuthorize(&quot;hasAnyRole('USER','ADMIN')&quot;)
+    public ResponseEntity&lt;List&lt;QuestionDto&gt;&gt; getQuestionsForQuiz(@PathVariable Long id) {
+        // return questions without correct answers
+<span class="fc" id="L44">        List&lt;QuestionDto&gt; quiz = quizService.findById(id).getQuestions();</span>
+        // strip correctAnswer from the DTO
+<span class="fc" id="L46">        List&lt;QuestionDto&gt; result = quiz.stream().map(q -&gt; {</span>
+<span class="nc" id="L47">            QuestionDto copy = new QuestionDto();</span>
+<span class="nc" id="L48">            copy.setId(q.getId());</span>
+<span class="nc" id="L49">            copy.setQuizId(q.getQuizId());</span>
+<span class="nc" id="L50">            copy.setQuestionText(q.getQuestionText());</span>
+<span class="nc" id="L51">            copy.setQuestionType(q.getQuestionType());</span>
+<span class="nc" id="L52">            return copy;</span>
+<span class="fc" id="L53">        }).collect(Collectors.toList());</span>
+<span class="fc" id="L54">        return ResponseEntity.ok(result);</span>
+    }
+
+    @PostMapping(&quot;/{id}/take&quot;)
+    @org.springframework.security.access.prepost.PreAuthorize(&quot;hasAnyRole('USER','ADMIN')&quot;)
+    public ResponseEntity&lt;TakeQuizResponse&gt; submitAnswers(@PathVariable Long id,
+                                                           @Valid @RequestBody TakeQuizRequest request) {
+<span class="fc" id="L61">        String email = currentUserEmail();</span>
+<span class="fc" id="L62">        TakeQuizResponse resp = attemptService.takeQuiz(email, id, request);</span>
+<span class="fc" id="L63">        return ResponseEntity.ok(resp);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

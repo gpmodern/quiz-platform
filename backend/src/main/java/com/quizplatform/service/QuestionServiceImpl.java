@@ -31,6 +31,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public QuestionDto addQuestion(Long quizId, QuestionDto dto) {
         Quiz quiz = quizRepository.findById(quizId)
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
@@ -43,6 +44,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public QuestionDto updateQuestion(Long id, QuestionDto dto) {
         Question q = questionRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
@@ -53,6 +55,7 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public void deleteQuestion(Long id) {
         questionRepository.deleteById(id);
     }

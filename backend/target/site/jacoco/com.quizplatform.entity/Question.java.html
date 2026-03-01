@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = &quot;Questions&quot;)
-<span class="pc bnc" id="L8" title="All 38 branches missed.">@Data</span>
+<span class="pc bnc" id="L8" title="All 46 branches missed.">@Data</span>
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +21,8 @@ public class Question {
 
     @Column(name = &quot;question_type&quot;, nullable = false)
 <span class="fc" id="L23">    private String questionType;</span>
+
+    @Column(name = &quot;correct_answer&quot;)
+<span class="fc" id="L26">    private String correctAnswer;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

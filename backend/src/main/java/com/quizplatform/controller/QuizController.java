@@ -28,7 +28,16 @@ public class QuizController {
         return ResponseEntity.ok(list);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<QuizDto>> search(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String category) {
+        List<QuizDto> results = quizService.searchQuizzes(title, category);
+        return ResponseEntity.ok(results);
+    }
+
     @PostMapping
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<QuizDto> create(@Valid @RequestBody CreateQuizRequest req) {
         QuizDto dto = quizService.createQuiz(req);
         return ResponseEntity.ok(dto);
@@ -41,12 +50,14 @@ public class QuizController {
     }
 
     @PutMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<QuizDto> update(@PathVariable Long id, @Valid @RequestBody CreateQuizRequest req) {
         QuizDto dto = quizService.updateQuiz(id, req);
         return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         quizService.deleteQuiz(id);
         return ResponseEntity.noContent().build();

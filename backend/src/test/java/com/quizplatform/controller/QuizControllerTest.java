@@ -213,4 +213,24 @@ class QuizControllerTest {
         mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete("/api/quizzes/30"))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    void search_byTitle_param() throws Exception {
+        List<QuizDto> list = Collections.singletonList(new QuizDto(9L, "Searchable"));
+        when(quizService.searchQuizzes("search", null)).thenReturn(list);
+
+        mockMvc.perform(get("/api/quizzes/search").param("title", "search"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value("Searchable"));
+    }
+
+    @Test
+    void search_byCategory_param() throws Exception {
+        List<QuizDto> list = Collections.singletonList(new QuizDto(10L, "CatQuiz"));
+        when(quizService.searchQuizzes(null, "cat")).thenReturn(list);
+
+        mockMvc.perform(get("/api/quizzes/search").param("category", "cat"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(10));
+    }
 }

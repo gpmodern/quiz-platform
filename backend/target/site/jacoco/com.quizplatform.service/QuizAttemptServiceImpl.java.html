@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>QuizAttemptServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Quiz Platform Backend</a> &gt; <a href="index.source.html" class="el_package">com.quizplatform.service</a> &gt; <span class="el_source">QuizAttemptServiceImpl.java</span></div><h1>QuizAttemptServiceImpl.java</h1><pre class="source lang-java linenums">package com.quizplatform.service;
+
+import com.quizplatform.dto.AnswerDto;
+import com.quizplatform.dto.TakeQuizRequest;
+import com.quizplatform.dto.TakeQuizResponse;
+import com.quizplatform.entity.Quiz;
+import com.quizplatform.entity.QuizAttempt;
+import com.quizplatform.entity.Question;
+import com.quizplatform.entity.User;
+import com.quizplatform.exception.ResourceNotFoundException;
+import com.quizplatform.repository.QuizAttemptRepository;
+import com.quizplatform.repository.QuizRepository;
+import com.quizplatform.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+@Transactional
+<span class="fc" id="L23">public class QuizAttemptServiceImpl implements QuizAttemptService {</span>
+
+    @Autowired
+    private QuizRepository quizRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private QuizAttemptRepository attemptRepository;
+
+    @Override
+    @org.springframework.security.access.prepost.PreAuthorize(&quot;hasAnyRole('USER','ADMIN')&quot;)
+    public TakeQuizResponse takeQuiz(String userEmail, Long quizId, TakeQuizRequest request) {
+<span class="fc" id="L35">        User user = userRepository.findByEmail(userEmail)</span>
+<span class="fc" id="L36">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;User not found&quot;));</span>
+<span class="fc" id="L37">        Quiz quiz = quizRepository.findById(quizId)</span>
+<span class="pc" id="L38">                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;Quiz not found&quot;));</span>
+
+        // map questions to correct answers
+<span class="fc" id="L41">        Map&lt;Long, String&gt; correctMap = quiz.getQuestions().stream()</span>
+<span class="fc" id="L42">                .collect(Collectors.toMap(Question::getId, Question::getCorrectAnswer));</span>
+
+<span class="fc" id="L44">        int total = correctMap.size();</span>
+<span class="fc" id="L45">        int score = 0;</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        for (AnswerDto ans : request.getAnswers()) {</span>
+<span class="fc" id="L47">            String correct = correctMap.get(ans.getQuestionId());</span>
+<span class="pc bpc" id="L48" title="1 of 4 branches missed.">            if (correct != null &amp;&amp; correct.equalsIgnoreCase(ans.getAnswer())) {</span>
+<span class="fc" id="L49">                score++;</span>
+            }
+<span class="fc" id="L51">        }</span>
+
+<span class="fc" id="L53">        QuizAttempt attempt = new QuizAttempt();</span>
+<span class="fc" id="L54">        attempt.setUser(user);</span>
+<span class="fc" id="L55">        attempt.setQuiz(quiz);</span>
+<span class="fc" id="L56">        attempt.setScore(score);</span>
+<span class="fc" id="L57">        attempt.setTotal(total);</span>
+<span class="fc" id="L58">        attemptRepository.save(attempt);</span>
+
+<span class="fc" id="L60">        return new TakeQuizResponse(score, total);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

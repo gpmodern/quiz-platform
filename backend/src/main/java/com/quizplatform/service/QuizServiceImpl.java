@@ -32,6 +32,7 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public QuizDto createQuiz(CreateQuizRequest req) {
         Quiz quiz = new Quiz();
         quiz.setTitle(req.getTitle());
@@ -45,6 +46,7 @@ public class QuizServiceImpl implements QuizService {
                 q.setQuiz(quiz);
                 q.setQuestionText(qd.getQuestionText());
                 q.setQuestionType(qd.getQuestionType());
+                q.setCorrectAnswer(qd.getCorrectAnswer());
                 questionRepository.save(q);
             }
         }
@@ -60,12 +62,13 @@ public class QuizServiceImpl implements QuizService {
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
         // map questions if present
         java.util.List<QuestionDto> questions = q.getQuestions().stream()
-                .map(qq -> new QuestionDto(qq.getId(), q.getId(), qq.getQuestionText(), qq.getQuestionType()))
+                .map(qq -> new QuestionDto(qq.getId(), q.getId(), qq.getQuestionText(), qq.getQuestionType(), qq.getCorrectAnswer()))
                 .collect(Collectors.toList());
         return new QuizDto(q.getId(), q.getTitle(), questions);
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public QuizDto updateQuiz(Long id, CreateQuizRequest req) {
         Quiz quiz = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Quiz not found"));
@@ -77,7 +80,27 @@ public class QuizServiceImpl implements QuizService {
     }
 
     @Override
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public void deleteQuiz(Long id) {
         repository.deleteById(id);
+    }
+
+    // Sprint 4 search implementation
+    @Override
+    @org.springframework.security.access.prepost.PreAuthorize("permitAll()")
+    public java.util.List<QuizDto> searchQuizzes(String title, String category) {
+        java.util.List<Quiz> results;
+        if (title != null && !title.isEmpty() && category != null && !category.isEmpty()) {
+            results = repository.findByTitleContainingIgnoreCaseAndCategoryIgnoreCase(title, category);
+        } else if (title != null && !title.isEmpty()) {
+            results = repository.findByTitleContainingIgnoreCase(title);
+        } else if (category != null && !category.isEmpty()) {
+            results = repository.findByCategoryIgnoreCase(category);
+        } else {
+            results = repository.findAll();
+        }
+        return results.stream()
+                .map(q -> new QuizDto(q.getId(), q.getTitle()))
+                .collect(Collectors.toList());
     }
 }

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.quizplatform.service.QuizServiceImplTest
 -------------------------------------------------------------------------------
-Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.095 s -- in com.quizplatform.service.QuizServiceImplTest
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.066 s -- in com.quizplatform.service.QuizServiceImplTest
