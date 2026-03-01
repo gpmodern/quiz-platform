@@ -1,0 +1,5 @@
+com\quizplatform\security\JwtUtilTest.class
+com\quizplatform\service\CustomUserDetailsServiceTest.class
+com\quizplatform\controller\QuizControllerTest.class
+com\quizplatform\service\QuizServiceImplTest.class
+com\quizplatform\controller\AuthControllerTest.class

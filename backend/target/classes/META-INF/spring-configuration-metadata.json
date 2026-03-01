@@ -1,0 +1,26 @@
+{
+  "groups": [
+    {
+      "name": "jwt",
+      "type": "com.quizplatform.config.JwtProperties",
+      "sourceType": "com.quizplatform.config.JwtProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jwt.expiration-ms",
+      "type": "java.lang.Long",
+      "sourceType": "com.quizplatform.config.JwtProperties",
+      "defaultValue": 0
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "sourceType": "com.quizplatform.config.JwtProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}
