@@ -22,8 +22,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
-    public JwtAuthenticationFilter(JwtUtil jwtUtil,
-<span class="fc" id="L26">                                   UserDetailsService userDetailsService) {</span>
+<span class="fc" id="L25">    public JwtAuthenticationFilter(JwtUtil jwtUtil,</span>
+                                   UserDetailsService userDetailsService) {
 <span class="fc" id="L27">        this.jwtUtil = jwtUtil;</span>
 <span class="fc" id="L28">        this.userDetailsService = userDetailsService;</span>
 <span class="fc" id="L29">    }</span>
@@ -53,14 +53,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 <span class="nc" id="L53">                                userDetailsService.loadUserByUsername(username);</span>
 
 <span class="nc" id="L55">                        UsernamePasswordAuthenticationToken authentication =</span>
-                                new UsernamePasswordAuthenticationToken(
-                                        userDetails,
-                                        null,
+<span class="nc" id="L56">                                new UsernamePasswordAuthenticationToken(</span>
+<span class="nc" id="L57">                                        userDetails,</span>
+<span class="nc" id="L58">                                        null,</span>
 <span class="nc" id="L59">                                        userDetails.getAuthorities()</span>
                                 );
 
 <span class="nc" id="L62">                        authentication.setDetails(</span>
-                                new WebAuthenticationDetailsSource()
+<span class="nc" id="L63">                                new WebAuthenticationDetailsSource()</span>
 <span class="nc" id="L64">                                        .buildDetails(request)</span>
                         );
 
@@ -73,7 +73,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // Optionally log here
             // DO NOT throw — just continue filter chain
 <span class="nc" id="L75">            logger.error(&quot;JWT authentication failed: &quot; + ex.getMessage());</span>
-<span class="nc" id="L76">        }</span>
+        }
 
 <span class="nc" id="L78">        filterChain.doFilter(request, response);</span>
 <span class="nc" id="L79">    }</span>

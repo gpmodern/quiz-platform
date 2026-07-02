@@ -62,7 +62,7 @@ public class AuthController {
 <span class="fc" id="L62">            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));</span>
 <span class="fc" id="L63">        } catch (BadCredentialsException ex) {</span>
 <span class="fc" id="L64">            return ResponseEntity.status(401).body(Map.of(&quot;error&quot;,&quot;Invalid credentials&quot;));</span>
-<span class="fc" id="L65">        }</span>
+        }
 <span class="fc" id="L66">        User u = userRepository.findByEmail(req.getEmail()).orElseThrow(() -&gt; </span>
 <span class="fc" id="L67">            new ResponseStatusException(HttpStatus.UNAUTHORIZED, &quot;Invalid credentials&quot;));</span>
 <span class="fc" id="L68">        String token = jwtUtil.generateToken(u.getUsername());</span>
