@@ -68,8 +68,9 @@ export class QuizService {
   }
 
   searchQuizzes(query: string): Observable<QuizDto[]> {
+    // backend expects 'title' (and optional 'category') params
     return this.http.get<QuizDto[]>(`${this.apiUrl}/search`, {
-      params: { query }
+      params: { title: query }
     });
   }
 
@@ -83,14 +84,13 @@ export class QuizService {
     questionId: number,
     question: QuestionDto
   ): Observable<QuestionDto> {
-    return this.http.put<QuestionDto>(
-      `${this.apiUrl}/${quizId}/questions/${questionId}`,
-      question
-    );
+    // backend uses /api/questions/{id} for update
+    return this.http.put<QuestionDto>(`/api/questions/${questionId}`, question);
   }
 
   deleteQuestion(quizId: number, questionId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${quizId}/questions/${questionId}`);
+    // backend uses /api/questions/{id} for delete
+    return this.http.delete<void>(`/api/questions/${questionId}`);
   }
 
   // Quiz attempts
