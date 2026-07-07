@@ -53,20 +53,23 @@ public class AuthController {
 <span class="fc" id="L53">        u.setRole(&quot;user&quot;);</span>
 <span class="fc" id="L54">        userRepository.save(u);</span>
 <span class="fc" id="L55">        String token = jwtUtil.generateToken(u.getUsername());</span>
-<span class="fc" id="L56">        return ResponseEntity.ok(new AuthResponse(token));</span>
+        // map user -&gt; UserDto
+<span class="fc" id="L57">        com.quizplatform.dto.UserDto userDto = new com.quizplatform.dto.UserDto(u.getId(), u.getUsername(), u.getEmail(), u.getRole());</span>
+<span class="fc" id="L58">        return ResponseEntity.ok(new com.quizplatform.dto.AuthResponse(token, userDto));</span>
     }
 
     @PostMapping(&quot;/login&quot;)
     public ResponseEntity&lt;?&gt; login(@Valid @RequestBody AuthRequest req) {
         try {
-<span class="fc" id="L62">            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));</span>
-<span class="fc" id="L63">        } catch (BadCredentialsException ex) {</span>
-<span class="fc" id="L64">            return ResponseEntity.status(401).body(Map.of(&quot;error&quot;,&quot;Invalid credentials&quot;));</span>
-        }
-<span class="fc" id="L66">        User u = userRepository.findByEmail(req.getEmail()).orElseThrow(() -&gt; </span>
-<span class="fc" id="L67">            new ResponseStatusException(HttpStatus.UNAUTHORIZED, &quot;Invalid credentials&quot;));</span>
-<span class="fc" id="L68">        String token = jwtUtil.generateToken(u.getUsername());</span>
-<span class="fc" id="L69">        return ResponseEntity.ok(new AuthResponse(token));</span>
+<span class="fc" id="L64">            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword()));</span>
+<span class="fc" id="L65">        } catch (BadCredentialsException ex) {</span>
+<span class="fc" id="L66">            return ResponseEntity.status(401).body(Map.of(&quot;error&quot;,&quot;Invalid credentials&quot;));</span>
+<span class="fc" id="L67">        }</span>
+<span class="fc" id="L68">        User u = userRepository.findByEmail(req.getEmail()).orElseThrow(() -&gt; </span>
+<span class="fc" id="L69">            new ResponseStatusException(HttpStatus.UNAUTHORIZED, &quot;Invalid credentials&quot;));</span>
+<span class="fc" id="L70">        String token = jwtUtil.generateToken(u.getUsername());</span>
+<span class="fc" id="L71">        com.quizplatform.dto.UserDto userDto = new com.quizplatform.dto.UserDto(u.getId(), u.getUsername(), u.getEmail(), u.getRole());</span>
+<span class="fc" id="L72">        return ResponseEntity.ok(new com.quizplatform.dto.AuthResponse(token, userDto));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

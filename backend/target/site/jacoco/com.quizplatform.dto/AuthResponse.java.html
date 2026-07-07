@@ -2,10 +2,21 @@
 
 public class AuthResponse {
     private String token;
+    private UserDto user;
 
-<span class="nc" id="L6">    public AuthResponse() {}</span>
-<span class="fc" id="L7">    public AuthResponse(String token) { this.token = token; }</span>
-<span class="fc" id="L8">    public String getToken() { return token; }</span>
-<span class="nc" id="L9">    public void setToken(String token) { this.token = token; }</span>
+<span class="nc" id="L7">    public AuthResponse() {}</span>
+
+<span class="nc" id="L9">    public AuthResponse(String token) { this.token = token; }</span>
+
+<span class="fc" id="L11">    public AuthResponse(String token, UserDto user) {</span>
+<span class="fc" id="L12">        this.token = token;</span>
+<span class="fc" id="L13">        this.user = user;</span>
+<span class="fc" id="L14">    }</span>
+
+<span class="fc" id="L16">    public String getToken() { return token; }</span>
+<span class="nc" id="L17">    public void setToken(String token) { this.token = token; }</span>
+
+<span class="fc" id="L19">    public UserDto getUser() { return user; }</span>
+<span class="nc" id="L20">    public void setUser(UserDto user) { this.user = user; }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

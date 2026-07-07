@@ -13,6 +13,7 @@ C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\ma
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\dto\RegisterRequest.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\dto\TakeQuizRequest.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\dto\TakeQuizResponse.java
+C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\dto\UserDto.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\entity\Question.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\entity\Quiz.java
 C:\Users\pradn\OneDrive\Desktop\VSCode\GithubCopilot\QuizPlatform\backend\src\main\java\com\quizplatform\entity\QuizAttempt.java

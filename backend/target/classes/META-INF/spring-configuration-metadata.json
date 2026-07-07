@@ -10,7 +10,8 @@
     {
       "name": "jwt.expiration-ms",
       "type": "java.lang.Long",
-      "sourceType": "com.quizplatform.config.JwtProperties"
+      "sourceType": "com.quizplatform.config.JwtProperties",
+      "defaultValue": 0
     },
     {
       "name": "jwt.secret",
