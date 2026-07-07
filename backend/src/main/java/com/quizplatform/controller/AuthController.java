@@ -3,6 +3,7 @@ package com.quizplatform.controller;
 import com.quizplatform.dto.AuthRequest;
 import com.quizplatform.dto.AuthResponse;
 import com.quizplatform.dto.RegisterRequest;
+import com.quizplatform.dto.UserDto;
 import com.quizplatform.entity.User;
 import com.quizplatform.repository.UserRepository;
 import com.quizplatform.security.JwtUtil;
@@ -53,7 +54,9 @@ public class AuthController {
         u.setRole("user");
         userRepository.save(u);
         String token = jwtUtil.generateToken(u.getUsername());
-        return ResponseEntity.ok(new AuthResponse(token));
+        // map user -> UserDto
+        com.quizplatform.dto.UserDto userDto = new com.quizplatform.dto.UserDto(u.getId(), u.getUsername(), u.getEmail(), u.getRole());
+        return ResponseEntity.ok(new com.quizplatform.dto.AuthResponse(token, userDto));
     }
 
     @PostMapping("/login")
@@ -66,6 +69,7 @@ public class AuthController {
         User u = userRepository.findByEmail(req.getEmail()).orElseThrow(() -> 
             new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials"));
         String token = jwtUtil.generateToken(u.getUsername());
-        return ResponseEntity.ok(new AuthResponse(token));
+        com.quizplatform.dto.UserDto userDto = new com.quizplatform.dto.UserDto(u.getId(), u.getUsername(), u.getEmail(), u.getRole());
+        return ResponseEntity.ok(new com.quizplatform.dto.AuthResponse(token, userDto));
     }
 }

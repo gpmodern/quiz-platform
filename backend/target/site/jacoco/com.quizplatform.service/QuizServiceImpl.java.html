@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 <span class="fc" id="L48">                q.setQuestionType(qd.getQuestionType());</span>
 <span class="fc" id="L49">                q.setCorrectAnswer(qd.getCorrectAnswer());</span>
 <span class="fc" id="L50">                questionRepository.save(q);</span>
-            }
+<span class="fc" id="L51">            }</span>
         }
 
 <span class="fc" id="L54">        return new QuizDto(quiz.getId(), quiz.getTitle());</span>
@@ -96,7 +96,7 @@ import java.util.stream.Collectors;
 <span class="fc" id="L96">            results = repository.findByTitleContainingIgnoreCase(title);</span>
 <span class="pc bpc" id="L97" title="1 of 4 branches missed.">        } else if (category != null &amp;&amp; !category.isEmpty()) {</span>
 <span class="fc" id="L98">            results = repository.findByCategoryIgnoreCase(category);</span>
-<span class="fc" id="L99">        } else {</span>
+        } else {
 <span class="fc" id="L100">            results = repository.findAll();</span>
         }
 <span class="fc" id="L102">        return results.stream()</span>
