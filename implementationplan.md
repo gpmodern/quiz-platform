@@ -1,86 +1,90 @@
 # Implementation Plan
 
 ## Overview
-This plan divides the QuizPlatform project into phased work with clear responsibilities for backend, frontend, and integration. Each phase includes completed work where applicable and upcoming tasks.
+This is the single implementation document for the project. It groups work into phases and a consolidated milestone history so the team does not need a separate document for every sprint.
+
+## Consolidated Milestone History
+These milestones reflect the overall progress of the project across its development cycles.
+
+- **Foundation**: Built the backend application structure, authentication flow, JWT security, and initial user management.
+- **Quiz Management**: Added quiz CRUD, question management, and quiz search/filtering for admin and learner workflows.
+- **Assessment Experience**: Added the quiz-taking flow, answer submission, scoring logic, and result persistence.
+- **Current Focus**: Improve integration quality, validation, polish, testing, and deployment readiness.
 
 ## Phase 1: Foundation and Authentication (Completed)
 ### Backend
-- Implement Spring Boot application structure.
-- Add user entity, repository, and JWT-based authentication.
-- Create authentication controller with `/api/auth/register` and `/api/auth/login`.
-- Configure Spring Security, JWT filter, and role-based access control.
+- Create the Spring Boot project structure.
+- Implement user registration and login.
+- Add JWT-based authentication and role-based access control.
 
 ### Frontend
-- Add login and registration pages.
-- Implement `AuthService` for registration, login, token storage, and logout.
-- Configure JWT interceptor for API requests.
-- Add routing for login and register flows.
+- Build login and registration screens.
+- Implement authentication service logic and token handling.
+- Add navigation for auth-related routes.
 
-### Status
-- Completed: backend auth endpoints, frontend auth pages, token storage.
-- Verify: admin role support and user role assignment.
+### Current status
+- Completed: backend auth endpoints, frontend auth screens, and token/session handling.
+- Still worth reviewing: role assignment and admin access enforcement.
 
-## Phase 2: Quiz and Question Management (Partially Completed)
+## Phase 2: Quiz and Question Management (Mostly Completed)
 ### Backend
-- Implement quiz entity, repository, service, and controller.
-- Add endpoints for create, read, update, delete quizzes.
-- Add question entity, repository, service, and controller.
-- Apply admin-only security for quiz/question management.
-- Add search endpoint for quizzes by title/category.
+- Implement quiz and question entities, repositories, services, and controllers.
+- Support create, read, update, and delete for quizzes.
+- Support question CRUD and quiz search.
 
 ### Frontend
-- Build dashboard listing with quiz search.
-- Build admin panel for managing quizzes and questions.
-- Implement `QuizService` for quiz CRUD, question CRUD, and search.
-- Add route guard or admin-only admin panel path.
+- Build dashboard-based quiz browsing and search.
+- Create an admin experience for quiz and question management.
+- Connect frontend services to backend quiz APIs.
 
-### Status
-- Completed: quiz CRUD endpoints, search endpoint, dashboard listing, admin quiz creation, add questions.
-- Remaining / Verify: question update/delete support in frontend, quiz update support in UI, admin route guard enforcement.
+### Current status
+- Completed: quiz CRUD, question CRUD, search, dashboard listing, and admin quiz creation.
+- Remaining gaps: UI support for quiz update/delete refinement and stronger admin-route protection.
 
-## Phase 3: Quiz Attempt Workflow (Partially Completed)
+## Phase 3: Quiz Attempt Workflow (Mostly Completed)
 ### Backend
-- Add quiz attempt service, scoring logic, and persistence.
-- Add endpoints to retrieve quiz questions and submit answers.
-- Ensure correct answers are not exposed in quiz retrieval.
+- Add quiz attempt handling and scoring logic.
+- Expose quiz question retrieval and submission endpoints.
+- Persist quiz attempts and score results.
 
 ### Frontend
-- Build quiz detail page to start a quiz and answer questions.
-- Implement answer selection, navigation, submission, and scoring view.
-- Display progress and feedback on submission.
+- Build a quiz-taking experience with question navigation and answer selection.
+- Display progress and show submission results.
 
-### Status
-- Completed: backend attempt submission and scoring, frontend quiz detail retrieval and submission.
-- Remaining / Verify: correct answer hiding, user experience for quiz reviewing, saving quiz attempts history.
+### Current status
+- Completed: answer submission and score calculation.
+- Remaining gaps: improved UX for review flow and better handling of attempt history.
 
-## Phase 4: Polish, Testing, and Deployment
+## Phase 4: Polish, Testing, and Release Readiness (In Progress)
 ### Backend
-- Add validation, exception handling, and consistent API error responses.
-- Add tests for controllers, services, and security.
-- Review and finalize repository and database mappings.
+- Improve validation and exception handling.
+- Strengthen automated tests for controllers, services, and security.
+- Review configuration and environment setup.
 
 ### Frontend
-- Add form validation and user feedback.
-- Improve UI/UX for dashboard, quiz flow, and admin panel.
-- Add frontend unit tests and end-to-end tests if desired.
+- Improve form validation and feedback.
+- Refine dashboard, admin, and quiz-taking UX.
+- Add more robust frontend testing and documentation.
+
+### Current Sprint Focus
+- Improve auth response payloads so the frontend gets user identity and role details.
+- Protect dashboard, quiz, and admin routes with authentication and admin guards.
+- Keep the app flow consistent for learners and admins.
 
 ### Cross-cutting
-- Document how to run backend and frontend locally.
-- Ensure environment variables are used for secrets and DB config.
-- Review code quality and remove hard-coded values.
+- Document local setup and run steps clearly.
+- Keep configuration and secrets management safe.
+- Remove hard-coded assumptions where possible.
 
-### Status
-- In progress: some backend tests exist, frontend README exists, but end-to-end polish and deployment instructions remain.
+## Next Sprint Backlog
+- Add result history and learner progress tracking.
+- Improve search with categories, tags, and pagination.
+- Add timed quizzes and richer quiz analytics.
+- Expand role management and admin controls.
+- Add stronger quiz editing and deletion UX for administrators.
 
-## Phase 5: Future Enhancements
-- Add quiz result history and user dashboards.
-- Add category metadata and more advanced search filters.
-- Add pagination, sorting, and quiz tagging.
-- Add role management and admin user creation flows.
-- Add real-time scoring or timed quizzes.
-
-## Dependencies and Tooling
-- Backend: Java `17` target, Spring Boot `3.5.11`, Maven `3.9.12`.
+## Tooling and Environment
+- Backend: Java target `17`, Spring Boot `3.5.11`, Maven `3.9.12`.
 - Frontend: Angular `21.2.0`, TypeScript `5.9.2`, Node `22.14.0`, npm `10.9.2`.
 
 ## Local Run Commands

@@ -1,25 +1,32 @@
 # Project Tracker
 
-## Current status
-- [x] Analyze repo structure and existing docs
-- [x] Inspect backend controllers, services, and DTOs
-- [x] Inspect frontend routes, components, and services
-- [x] Identify installed tech stack versions
-- [ ] Validate API contracts for frontend/backend integration
-- [ ] Review missing admin and learner flows
+## Purpose
+Use this file as the single live tracker for the project. Keep it updated as work progresses so the agent can see what is done, what is in progress, and what comes next.
+
+## Current Status
+- [x] Review repository structure and existing project docs
+- [x] Inspect backend controllers, services, repositories, and DTOs
+- [x] Inspect frontend routes, services, and feature components
+- [x] Confirm installed Java, Maven, Node, npm, and Angular versions
+- [x] Improve auth payloads so the frontend receives user identity and role info
+- [x] Protect dashboard, quiz, and admin routes with authentication and admin guards
+- [ ] Review remaining admin and learner workflow gaps
+- [ ] Improve validation, error handling, and testing further
 
 ## Done
-- Created `PRD.md` with problem statement, target users, core features, why it matters, and success criteria.
-- Created `implementationplan.md` with phased work, completed items, remaining tasks, and local run commands.
-- Created `tracker.md` to keep agent progress and next steps.
-- Updated `copilot-instructions.md` with installed system versions and repo version guidance.
+- Created and refined the product requirements document in `PRD.md`.
+- Created a consolidated implementation plan in `implementationplan.md`.
+- Updated `copilot-instructions.md` with the current stack and environment guidance.
+- Captured the project's high-level product scope and milestone history.
+- Implemented route protection for authenticated and admin users.
+- Updated auth responses to include user profile details.
 
-## In progress
-- Verifying current API contract alignment between frontend and backend.
-- Confirming missing features in the frontend admin workflow and quiz update/delete support.
+## In Progress
+- Reviewing remaining UX and validation gaps in the admin and quiz-taking workflows.
+- Evaluating additional improvements for testing and API consistency.
 
-## Next tasks
-1. Confirm backend API endpoints versus frontend request URLs.
-2. Update docs if any API mismatch or missing feature is found.
-3. Add a small section to `implementationplan.md` with exact completed sprint items based on `SPRINT2.md` and `SPRINT4.md`.
-4. Optionally, add a deployment/run guide section to `copilot-instructions.md`.
+## Next Sprint Tasks
+1. Add quiz result history or attempt history for learners.
+2. Improve search with richer filters and pagination.
+3. Add stronger quiz editing and admin management UX.
+4. Expand automated tests for auth, routing, and quiz workflows.
